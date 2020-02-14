@@ -1,0 +1,39 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <!--Text Style-->
+    <style name="TextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextContentLargeNavy" parent="TextStyle">
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:textColor">@color/navy_blue_dark</item>
+    </style>
+
+    <style name="TextContentNormal" parent="TextStyle">
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:textColor">@color/gray_60</item>
+    </style>
+
+    <!--Button Style-->
+    <style name="ButtonStyle" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="ButtonNavyHard" parent="ButtonStyle">
+        <item name="android:layout_width">@dimen/button_try_again_width</item>
+        <item name="android:background">@drawable/bg_hard_navy_blue_dark</item>
+        <item name="android:textColor">@color/yellow_bright</item>
+    </style>
+</resources>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Weather</string>
+
+    <string name="message_sorry">Sorry, there was an error</string>
+
+    <string name="alert_no_internet_connetion">No internet connection</string>
+
+    <string name="button_try_again">Try again</string>
+
+    <string name="access_fine_location">Please accept permissions Access Fine Location to get location
+    </string>
+</resources>
