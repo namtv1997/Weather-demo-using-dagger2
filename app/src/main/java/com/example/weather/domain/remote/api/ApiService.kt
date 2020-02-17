@@ -1,4 +1,4 @@
-package com.example.weather.app
+package com.example.weather.domain.remote.api
 
 import com.example.weather.domain.remote.pojo.response.GeoPositionSearch
 import io.reactivex.Observable

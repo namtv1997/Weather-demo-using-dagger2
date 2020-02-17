@@ -1,42 +1,46 @@
 package com.example.weather.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.weather.R
+import com.example.weather.databinding.ActivityMainBinding
+import com.example.weather.domain.remote.pojo.response.GeoPositionSearch
 import com.example.weather.ui.base.BaseActivity
 import com.google.android.gms.location.*
-import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_main.*
 import pub.devrel.easypermissions.EasyPermissions
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
 
     @Inject
-     lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModelMain: MainViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mLastLocation: Location
+    private lateinit var mainBinding: ActivityMainBinding
 
+    private var latitude: String? = null
+    private var longitude: String? = null
     private var locationManager: LocationManager? = null
+    private var geoPositionSearch = GeoPositionSearch()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
     }
 
     override fun onResume() {
@@ -50,7 +54,8 @@ class MainActivity : BaseActivity() {
             ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java).apply {
                 resultGeoPositionSearch.observe(this@MainActivity, Observer { result ->
                     result?.let {
-
+                        geoPositionSearch=it
+                        mainBinding.geoPositionSearch=geoPositionSearch
                     }
                 })
 
@@ -98,19 +103,22 @@ class MainActivity : BaseActivity() {
 
         val builder = AlertDialog.Builder(this)
 
-        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton(
-            "YES"
-        ) { _, _ -> startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)) }
-            .setNegativeButton(
-                "NO"
-            ) { dialog, _ -> dialog.cancel() }
+        builder.setMessage(getString(R.string.enable_gps)).
+            setCancelable(false).
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
+                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            }
+            .setNegativeButton( getString(R.string.no) ) { dialog, _ ->
+                dialog.cancel()
+            }
+
         val alertDialog = builder.create()
+
         alertDialog.show()
     }
 
 
     private fun startLocationUpdates() {
-
         // Create the location request to start receiving updates
 
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -126,7 +134,6 @@ class MainActivity : BaseActivity() {
         settingsClient.checkLocationSettings(locationSettingsRequest)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        // new Google API SDK v11 uses getFusedLocationProviderClient(this)
 
         fusedLocationClient.requestLocationUpdates(
             mLocationRequest, mLocationCallback,
@@ -146,23 +153,22 @@ class MainActivity : BaseActivity() {
         // New location has now been determined
 
         mLastLocation = location
-        tv.text =
-            "LATITUDE : " + mLastLocation.latitude + "    LONGITUDE : " + mLastLocation.longitude
-        viewModelMain.getDataGeoPositionSearch(
-            Key,
-            "${mLastLocation.latitude},${mLastLocation.longitude}"
-        )
-        // You can now create a LatLng Object for use with maps
+        latitude = mLastLocation.latitude.toString()
+        longitude = mLastLocation.longitude.toString()
+
+        viewModelMain.getDataGeoPositionSearch(Key, "${latitude},${longitude}")
     }
 
     companion object {
+
         val ACCESS_FINE_LOCATION = arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
+
         const val RC_ACCESS_FINE_LOCATION = 4466
-        const val INTERVAL: Long = 2000
-        const val FASTEST_INTERVAL: Long = 1000
+        const val INTERVAL: Long = 2000000
+        const val FASTEST_INTERVAL: Long = 1000000
 
     }
 

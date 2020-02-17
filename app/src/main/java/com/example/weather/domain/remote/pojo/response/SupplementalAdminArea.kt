@@ -3,14 +3,14 @@ package com.example.weather.domain.remote.pojo.response
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class SupplementalAdminArea {
+class SupplementalAdminArea(
     @SerializedName("Level")
     @Expose
-     val level: Int? = null
+    val level: Int? = null,
     @SerializedName("LocalizedName")
     @Expose
-     val localizedName: String? = null
+    val localizedName: String? = null,
     @SerializedName("EnglishName")
     @Expose
-     val englishName: String? = null
-}
+    val englishName: String? = null
+)

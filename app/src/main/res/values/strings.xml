@@ -9,4 +9,11 @@
 
     <string name="access_fine_location">Please accept permissions Access Fine Location to get location
     </string>
+    <string name="label_latitue">Latitue :</string>
+    <string name="label_longtitue">Longtitue :</string>
+    <string name="label_timezone">TimeZone :</string>
+    <string name="label_region">Region :</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="enable_gps">Enable GPS</string>
 </resources>
