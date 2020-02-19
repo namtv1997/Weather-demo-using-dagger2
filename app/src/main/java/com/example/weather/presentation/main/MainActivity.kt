@@ -93,7 +93,6 @@ class MainActivity : BaseActivity() {
 
     }
 
-
     @SuppressLint("SimpleDateFormat")
     private fun setDataWeather5days(weather: WeatherResult) {
         val weatherResult = weather
@@ -139,7 +138,7 @@ class MainActivity : BaseActivity() {
         val sdfCurrentDate = SimpleDateFormat("yyyy EEEE MMMM-dd")
         val splitString = " "
         val part = sdfCurrentDate.format(date).split(splitString)
-        val dateTimeCustom = DateTimeCustom(part[0], part[1] + part[2], part[3] + part[4])
+        val dateTimeCustom = DateTimeCustom(part[0], part[1], part[2])
         mainBinding.dateTimeCustom = dateTimeCustom
     }
 
