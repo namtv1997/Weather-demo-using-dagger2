@@ -6,25 +6,22 @@ import com.example.weather.domain.remote.pojo.response.WeatherCurent
 import com.example.weather.domain.usecase.GetWeatherDataCurrent
 import javax.inject.Inject
 
-class WeatherCurrentViewModel @Inject constructor(private  val getWeatherDataCurrent: GetWeatherDataCurrent) : ViewModel(){
+class WeatherCurrentViewModel @Inject constructor(private val getWeatherDataCurrent: GetWeatherDataCurrent) :
+    ViewModel() {
 
     val weatherCurrent = MutableLiveData<List<WeatherCurent>>()
 
     val isLoad = MutableLiveData<Boolean>()
 
-    init {
-        isLoad.value = true
-    }
-
-
     fun getDataWeatherCurrent(keyRegion: String, apikey: String) {
-        getWeatherDataCurrent.saveKeyRegionAndApiKey(keyRegion,apikey)
+        isLoad.value = true
+        getWeatherDataCurrent.saveKeyRegionAndApiKey(keyRegion, apikey)
         getWeatherDataCurrent.execute(
-            onSuccess =   {
+            onSuccess = {
                 isLoad.value = false
                 weatherCurrent.postValue(it)
             },
-            onError =       {
+            onError = {
                 isLoad.value = false
                 it.printStackTrace()
             }

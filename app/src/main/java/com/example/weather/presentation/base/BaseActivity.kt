@@ -13,16 +13,13 @@ import com.example.weather.presentation.widget.NoNetworkDialog
 import com.example.weather.utils.Constant
 import com.example.weather.utils.NetworkUtils
 import dagger.android.support.DaggerAppCompatActivity
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 abstract class BaseActivity : DaggerAppCompatActivity() {
 
     private lateinit var progressDialog: CircleProgressDialog
     private lateinit var noNetworkDialog: NoNetworkDialog
 
-    var Key= Constant.API_Key4
+    var Key= Constant.API_Key
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
