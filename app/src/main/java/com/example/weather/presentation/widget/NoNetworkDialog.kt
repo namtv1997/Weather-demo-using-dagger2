@@ -1,4 +1,4 @@
-package com.example.weather.ui.widget
+package com.example.weather.presentation.widget
 
 import android.app.Dialog
 import android.content.Context

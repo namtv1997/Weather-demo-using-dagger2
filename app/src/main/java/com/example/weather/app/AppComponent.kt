@@ -2,7 +2,7 @@ package com.example.weather.app
 
 import com.example.weather.di.ActivityModule
 import com.example.weather.di.ViewModelModule
-import com.example.weather.domain.remote.api.ApiModule
+import com.example.weather.data.source.remote.ApiModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector

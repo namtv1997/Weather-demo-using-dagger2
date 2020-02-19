@@ -26,15 +26,12 @@
 
     </data>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#5EAFD4"
-            tools:context=".ui.MainActivity">
+            tools:context=".presentation.main.MainActivity">
 
             <TextView
                 android:id="@+id/tvLabelYear"
@@ -323,7 +320,6 @@
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
 
 
 

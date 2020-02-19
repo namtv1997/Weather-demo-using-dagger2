@@ -1,6 +1,6 @@
 package com.example.weather.di
 
-import com.example.weather.ui.MainActivity
+import com.example.weather.presentation.main.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

@@ -1,15 +1,20 @@
-package com.example.weather.ui
+package com.example.weather.presentation.main
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +26,7 @@ import com.example.weather.domain.remote.pojo.common.DayCustom
 import com.example.weather.domain.remote.pojo.response.GeoPositionSearch
 import com.example.weather.domain.remote.pojo.response.WeatherCurent
 import com.example.weather.domain.remote.pojo.response.WeatherResult
-import com.example.weather.ui.base.BaseActivity
+import com.example.weather.presentation.base.BaseActivity
 import com.google.android.gms.location.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.text.SimpleDateFormat
@@ -29,108 +34,118 @@ import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private lateinit var viewModelMain: MainViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mLastLocation: Location
     private lateinit var mainBinding: ActivityMainBinding
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModelWeatherCurrent: WeatherCurrentViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory).get(WeatherCurrentViewModel::class.java)
+    }
+    private val viewModelWeather5days: Weather5daysViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory).get(Weather5daysViewModel::class.java)
+    }
+    private val viewModelGeoPositionSearch: GeoPositionSearchViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory).get(GeoPositionSearchViewModel::class.java)
+    }
 
     private var latitude: String? = null
     private var longitude: String? = null
     private var locationManager: LocationManager? = null
     private var geoPositionSearch = GeoPositionSearch()
     private var weatherCurent = WeatherCurent()
-    private var weatherResult = WeatherResult()
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         requestPermission()
-        initViewModelMain()
+
+        viewModelGeoPositionSearch.resultGeoPositionSearch.observe(this, Observer {
+            geoPositionSearch = it
+            mainBinding.geoPositionSearch = geoPositionSearch
+            viewModelWeatherCurrent.getDataWeatherCurrent(it.key.toString(), Key)
+            viewModelWeather5days.getDataWeather5days(it.key.toString(), Key)
+        })
+
+        viewModelWeather5days.weather5days.observe(this, Observer {
+            setDataWeather5days(it)
+        })
+
+        viewModelWeatherCurrent.weatherCurrent.observe(this, Observer {
+            setDataWeatherCurrent(it)
+        })
+
+        viewModelGeoPositionSearch.isLoad.observe(this, Observer {
+            showOrHideProgressDialog(it)
+        })
+
+        viewModelWeatherCurrent.isLoad.observe(this, Observer {
+            showOrHideProgressDialog(it)
+        })
+
+        viewModelWeather5days.isLoad.observe(this, Observer {
+            showOrHideProgressDialog(it)
+        })
 
     }
 
 
     @SuppressLint("SimpleDateFormat")
-    private fun initViewModelMain() {
-        viewModelMain =
-            ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java).apply {
-                resultGeoPositionSearch.observe(this@MainActivity, Observer { result ->
-                    result?.let {
-                        geoPositionSearch = it
-                        mainBinding.geoPositionSearch = geoPositionSearch
-                        viewModelMain.getDataWeatherCurrent(it.key.toString(), Key, true)
-                        viewModelMain.getDataWeather5days(it.key.toString(), Key, true)
-                    }
-                })
+    private fun setDataWeather5days(weather: WeatherResult) {
+        val weatherResult = weather
+        mainBinding.weatherResult = weatherResult
 
-                weatherCurrent.observe(this@MainActivity, Observer {
-                    weatherCurent = it[0]
-                    mainBinding.weatherCurent = weatherCurent
+        val dateInStringDay1 = weatherResult.DailyForecasts!![1].date
+        val dateInStringDay2 = weatherResult.DailyForecasts[2].date
+        val dateInStringDay3 = weatherResult.DailyForecasts[3].date
+        val dateInStringDay4 = weatherResult.DailyForecasts[4].date
 
-                    val dateInStringCurrent = it!![0].localObservationDateTime
-                    val sdfCurrent = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                    val shortdateInStringCurrent = dateInStringCurrent?.substring(0, 19)
-                    val date = sdfCurrent.parse(shortdateInStringCurrent.toString())
+        val sdf5days = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val shortdateInStringDay1 = dateInStringDay1?.substring(0, 19)
+        val shortdateInStringDay2 = dateInStringDay2?.substring(0, 19)
+        val shortdateInStringDay3 = dateInStringDay3?.substring(0, 19)
+        val shortdateInStringDay4 = dateInStringDay4?.substring(0, 19)
 
-                    val sdfCurrentDate = SimpleDateFormat("yyyy EEEE MMMM-dd")
-                    val splitString = " "
-                    val part = sdfCurrentDate.format(date).split(splitString)
-                    val dateTimeCustom = DateTimeCustom(part[0], part[1], part[2])
-                    mainBinding.dateTimeCustom = dateTimeCustom
+        val sdf5days1 = SimpleDateFormat("EEE")
+        val day1 = sdf5days.parse(shortdateInStringDay1.toString())
+        val day2 = sdf5days.parse(shortdateInStringDay2.toString())
+        val day3 = sdf5days.parse(shortdateInStringDay3.toString())
+        val day4 = sdf5days.parse(shortdateInStringDay4.toString())
 
-                })
+        val resultDay = ArrayList<String>()
+        resultDay.add(sdf5days1.format(day1))
+        resultDay.add(sdf5days1.format(day2))
+        resultDay.add(sdf5days1.format(day3))
+        resultDay.add(sdf5days1.format(day4))
 
-                weather5days.observe(this@MainActivity, Observer {
-                    weatherResult = it
-                    mainBinding.weatherResult = weatherResult
+        val dayCustom = DayCustom(resultDay)
+        mainBinding.dayCustom = dayCustom
+    }
 
-                    val dateInStringDay1 = it?.DailyForecasts!![1].date
-                    val dateInStringDay2 = it.DailyForecasts[2].date
-                    val dateInStringDay3 = it.DailyForecasts[3].date
-                    val dateInStringDay4 = it.DailyForecasts[4].date
+    @SuppressLint("SimpleDateFormat")
+    private fun setDataWeatherCurrent(listweather: List<WeatherCurent>) {
+        weatherCurent = listweather[0]
+        mainBinding.weatherCurent = weatherCurent
 
-                    val sdf5days = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                    val shortdateInStringDay1 = dateInStringDay1?.substring(0, 19)
-                    val shortdateInStringDay2 = dateInStringDay2?.substring(0, 19)
-                    val shortdateInStringDay3 = dateInStringDay3?.substring(0, 19)
-                    val shortdateInStringDay4 = dateInStringDay4?.substring(0, 19)
+        val dateInStringCurrent = listweather[0].localObservationDateTime
+        val sdfCurrent = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val shortdateInStringCurrent = dateInStringCurrent?.substring(0, 19)
+        val date = sdfCurrent.parse(shortdateInStringCurrent.toString())
 
-                    val sdf5days1 = SimpleDateFormat("EEE")
-                    val day1 = sdf5days.parse(shortdateInStringDay1.toString())
-                    val day2 = sdf5days.parse(shortdateInStringDay2.toString())
-                    val day3 = sdf5days.parse(shortdateInStringDay3.toString())
-                    val day4 = sdf5days.parse(shortdateInStringDay4.toString())
-
-                    val resultDay = ArrayList<String>()
-                    resultDay.add(sdf5days1.format(day1))
-                    resultDay.add(sdf5days1.format(day2))
-                    resultDay.add(sdf5days1.format(day3))
-                    resultDay.add(sdf5days1.format(day4))
-
-                    val dayCustom = DayCustom(resultDay)
-                    mainBinding.dayCustom = dayCustom
-
-                })
-
-                loadingStatus.observe(this@MainActivity, Observer { state ->
-                    state?.let {
-                        showOrHideProgressDialog(it)
-                    }
-                })
-            }
+        val sdfCurrentDate = SimpleDateFormat("yyyy EEEE MMMM-dd")
+        val splitString = " "
+        val part = sdfCurrentDate.format(date).split(splitString)
+        val dateTimeCustom = DateTimeCustom(part[0], part[1] + part[2], part[3] + part[4])
+        mainBinding.dateTimeCustom = dateTimeCustom
     }
 
     private fun requestPermission() {
-        if (EasyPermissions.hasPermissions(
-                this,
-                *ACCESS_FINE_LOCATION
-            )
-        ) {
+        if (EasyPermissions.hasPermissions(this, *ACCESS_FINE_LOCATION))
+        {
             // Have permissions, do the thing
             mLocationRequest = LocationRequest()
             locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -138,11 +153,9 @@ class MainActivity : BaseActivity() {
 
             if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 //Write Function To enable gps
-
-                onGPS()
+               onGPS()
             } else {
                 //GPS is already On then
-
                 startLocationUpdates()
             }
 
@@ -178,8 +191,10 @@ class MainActivity : BaseActivity() {
         // Create the location request to start receiving updates
 
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.interval = INTERVAL
-        mLocationRequest.fastestInterval = FASTEST_INTERVAL
+        mLocationRequest.interval =
+            INTERVAL
+        mLocationRequest.fastestInterval =
+            FASTEST_INTERVAL
 
         // Create LocationSettingsRequest object using location request
         val builder = LocationSettingsRequest.Builder()
@@ -212,7 +227,7 @@ class MainActivity : BaseActivity() {
         latitude = mLastLocation.latitude.toString()
         longitude = mLastLocation.longitude.toString()
 
-        viewModelMain.getDataGeoPositionSearch(Key, "${latitude},${longitude}")
+        viewModelGeoPositionSearch.getDataGeoPositionSearch(Key, "${latitude},${longitude}")
     }
 
     private fun convertFahrenheitToCelcius(fahrenheit: Float): Float {

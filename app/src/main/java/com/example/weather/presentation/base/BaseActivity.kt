@@ -1,25 +1,28 @@
-package com.example.weather.ui.base
+package com.example.weather.presentation.base
 
 import android.content.Context
 import android.graphics.Rect
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
-import com.example.weather.ui.widget.CircleProgressDialog
-import com.example.weather.ui.widget.NoNetworkDialog
+import com.example.weather.presentation.widget.CircleProgressDialog
+import com.example.weather.presentation.widget.NoNetworkDialog
 import com.example.weather.utils.Constant
 import com.example.weather.utils.NetworkUtils
 import dagger.android.support.DaggerAppCompatActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 abstract class BaseActivity : DaggerAppCompatActivity() {
 
     private lateinit var progressDialog: CircleProgressDialog
     private lateinit var noNetworkDialog: NoNetworkDialog
 
-    var Key= Constant.API_Key3
+    var Key= Constant.API_Key4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +33,7 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
 
             this.finish()
         }
+
     }
 
     fun showOrHideProgressDialog(isShow: Boolean) {
