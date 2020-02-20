@@ -12,25 +12,64 @@ class TextBinding {
 
     companion object {
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "SimpleDateFormat")
         @BindingAdapter("year")
         @JvmStatic
         fun setYear(textView: TextView, listweather: ArrayList<WeatherCurent>? = null) {
-            //  textView.text = customDateTime(listweather?.get(0)?.localObservationDateTime.toString())[0]
+
+            try {
+                val sdf5days = SimpleDateFormat("yyyy-MM-dd")
+                val sdfCustom = SimpleDateFormat("yyyy EEEE MMMM-dd")
+
+                val arr = listweather?.get(0)?.localObservationDateTime.toString().split(":")
+                val arr1 = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                val splitString =result.split(" ")
+                textView.text=splitString[0]
+
+            } catch (e: java.lang.Exception) {
+
+            }
         }
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "SimpleDateFormat")
         @BindingAdapter("month")
         @JvmStatic
         fun setMonth(textView: TextView, listweather: ArrayList<WeatherCurent>? = null) {
-            //  textView.text = customDateTime(listweather?.get(0)?.localObservationDateTime.toString())[1]
+
+            try {
+                val sdf5days = SimpleDateFormat("yyyy-MM-dd")
+                val sdfCustom = SimpleDateFormat("yyyy EEEE MMMM-dd")
+
+                val arr = listweather?.get(0)?.localObservationDateTime.toString().split(":")
+                val arr1 = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                val splitString =result.split(" ")
+                textView.text=splitString[1]
+
+            } catch (e: java.lang.Exception) {
+
+            }
         }
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "SimpleDateFormat")
         @BindingAdapter("day")
         @JvmStatic
         fun setDay(textView: TextView, listweather: ArrayList<WeatherCurent>? = null) {
-            //  textView.text = customDateTime(listweather?.get(0)?.localObservationDateTime.toString())[2]
+
+            try {
+                val sdf5days = SimpleDateFormat("yyyy-MM-dd")
+                val sdfCustom = SimpleDateFormat("yyyy EEEE MMMM-dd")
+
+                val arr = listweather?.get(0)?.localObservationDateTime.toString().split(":")
+                val arr1 = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                val splitString =result.split(" ")
+                textView.text=splitString[2]
+
+            } catch (e: java.lang.Exception) {
+
+            }
         }
 
         @SuppressLint("SetTextI18n")
@@ -94,65 +133,70 @@ class TextBinding {
             textView.text = "${result}ºC"
         }
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "SimpleDateFormat")
         @BindingAdapter("dayOne")
         @JvmStatic
         fun setdDayOne(textView: TextView, weatherResult: WeatherResult? = null) {
-            //   textView.text = customDay(weatherResult?.DailyForecasts?.get(1)?.date.toString())
+            try {
+                val sdf5days = SimpleDateFormat("yyyy-MM-dd")
+                val sdfCustom = SimpleDateFormat("EEE")
+                val arr = weatherResult?.DailyForecasts?.get(1)?.date.toString().split(":")
+                val arr1 = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                textView.text = result.toString()
+            } catch (e: Exception) {
+
+            }
         }
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "SimpleDateFormat")
         @BindingAdapter("dayTwo")
         @JvmStatic
         fun setdDayTwo(textView: TextView, weatherResult: WeatherResult? = null) {
-            // textView.text = customDay(weatherResult?.DailyForecasts?.get(2)?.date.toString())
+            try {
+                val sdf5days = SimpleDateFormat("yyyy-MM-dd")
+                val sdfCustom = SimpleDateFormat("EEE")
+                val arr = weatherResult?.DailyForecasts?.get(2)?.date.toString().split(":")
+                val arr1 = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                textView.text = result.toString()
+            } catch (e: Exception) {
+
+            }
         }
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "SimpleDateFormat")
         @BindingAdapter("dayThree")
         @JvmStatic
         fun setDayThree(textView: TextView, weatherResult: WeatherResult? = null) {
-            //   textView.text = customDay(weatherResult?.DailyForecasts?.get(3)?.date.toString())
+            try {
+                val sdf5days = SimpleDateFormat("yyyy-MM-dd")
+                val sdfCustom = SimpleDateFormat("EEE")
+                val arr = weatherResult?.DailyForecasts?.get(3)?.date.toString().split(":")
+                val arr1 = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                textView.text = result.toString()
+            } catch (e: Exception) {
+
+            }
         }
 
         @SuppressLint("SetTextI18n", "SimpleDateFormat")
         @BindingAdapter("dayFour")
         @JvmStatic
         fun setDayFour(textView: TextView, weatherResult: WeatherResult? = null) {
-//            //  textView.text = customDay(weatherResult?.DailyForecasts?.get(4)?.date.toString())
-//
-//            val sdf5days = SimpleDateFormat("yyyy-MM-dd")
-//            val s = weatherResult?.DailyForecasts?.get(4)?.date.toString()
-//            val arr = s.split(":")
-//            val a=arr[0]
-//            val sdfday = SimpleDateFormat("EEE")
-//            val arr1 = a.split("T")
-//            val b=arr1[0]
-//            val c=sdf5days.parse(b)
-//            textView.text = c.toString()
+            try {
+                val sdf5days = SimpleDateFormat("yyyy-MM-dd")
+                val sdfCustom = SimpleDateFormat("EEE")
+                val arr = weatherResult?.DailyForecasts?.get(4)?.date.toString().split(":")
+                val arr1 = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                textView.text = result.toString()
+            } catch (e: Exception) {
+
+            }
 
         }
-
-        @SuppressLint("SimpleDateFormat")
-        fun customDateTime(dateTime: String? = null): List<String> {
-            val sdfCurrent = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-            val shortdateInStringCurrent = dateTime?.substring(0, 19)
-            val date = sdfCurrent.parse(shortdateInStringCurrent.toString())
-            val sdfCurrentDate = SimpleDateFormat("yyyy EEEE MMMM-dd")
-            val splitString = " "
-            val part = sdfCurrentDate.format(date).split(splitString)
-            return part
-        }
-
-        @SuppressLint("SimpleDateFormat")
-        fun customDay(dateTime: String? = null): String {
-            val sdf5days = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-            val shortdateInStringDay = dateTime?.substring(0, 19)
-            val sdf5days1 = SimpleDateFormat("EEE")
-            val day = sdf5days.parse(shortdateInStringDay.toString())
-            return sdf5days1.format(day)
-        }
-
     }
 
 }
