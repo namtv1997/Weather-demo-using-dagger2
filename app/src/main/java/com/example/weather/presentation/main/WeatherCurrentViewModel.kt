@@ -9,7 +9,7 @@ import javax.inject.Inject
 class WeatherCurrentViewModel @Inject constructor(private val getWeatherDataCurrent: GetWeatherDataCurrent) :
     ViewModel() {
 
-    val weatherCurrent = MutableLiveData<List<WeatherCurent>>()
+    var weatherCurrent = MutableLiveData<ArrayList<WeatherCurent>>()
 
     val isLoad = MutableLiveData<Boolean>()
 

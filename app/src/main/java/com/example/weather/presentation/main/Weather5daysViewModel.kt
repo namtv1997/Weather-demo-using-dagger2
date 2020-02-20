@@ -9,7 +9,7 @@ import javax.inject.Inject
 class Weather5daysViewModel @Inject constructor(private val getWeatherData5Days: GetWeatherData5Days) :
     ViewModel() {
 
-    val weather5days = MutableLiveData<WeatherResult>()
+    var weather5days = MutableLiveData<WeatherResult>()
 
     val isLoad = MutableLiveData<Boolean>()
 

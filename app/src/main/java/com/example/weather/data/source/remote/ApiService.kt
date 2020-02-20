@@ -28,5 +28,5 @@ interface ApiService {
         @Path("keyRegion") keyRegion: String,
         @Query("apikey") apikey: String,
         @Query("details") details: Boolean
-    ): Single<List<WeatherCurent>>
+    ): Single<ArrayList<WeatherCurent>>
 }

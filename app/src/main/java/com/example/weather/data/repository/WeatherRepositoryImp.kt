@@ -28,7 +28,7 @@ class WeatherRepositoryImp( private  val apiService: ApiService) :WeatherReposit
         keyRegion: String?,
         apikey: String?,
         details: Boolean
-    ): Single<List<WeatherCurent>> {
+    ): Single<ArrayList<WeatherCurent>> {
         return apiService.getWeatherDataCurrent(keyRegion.toString(),apikey.toString(),true)
     }
 }

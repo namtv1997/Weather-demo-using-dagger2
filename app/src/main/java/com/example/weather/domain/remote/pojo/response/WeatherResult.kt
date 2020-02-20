@@ -8,10 +8,10 @@ import com.google.gson.annotations.SerializedName
 
     @SerializedName("Headline")
     @Expose
-    val Headline: Headline = Headline(),
+    var Headline: Headline = Headline(),
 
     @SerializedName("DailyForecasts")
     @Expose
-    val DailyForecasts: List<DailyForecast>? = null
+    var DailyForecasts: List<DailyForecast>? = null
 
 )

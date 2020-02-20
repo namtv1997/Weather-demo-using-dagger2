@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GeoPositionSearchViewModel @Inject constructor(private val getWeatherDataByGeoPositionSearchUseCase: GetWeatherDataByGeoPositionSearchUseCase) :
     ViewModel() {
 
-    val resultGeoPositionSearch = MutableLiveData<GeoPositionSearch>()
+    var resultGeoPositionSearch = MutableLiveData<GeoPositionSearch>()
     val isLoad = MutableLiveData<Boolean>()
 
     fun getDataGeoPositionSearch(apikey: String, q: String) {

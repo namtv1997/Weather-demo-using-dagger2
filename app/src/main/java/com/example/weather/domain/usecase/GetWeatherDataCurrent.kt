@@ -8,7 +8,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class GetWeatherDataCurrent @Inject constructor(private val repository: WeatherRepository) :
-    SingleUseCase<List<WeatherCurent>>() {
+    SingleUseCase<ArrayList<WeatherCurent>>() {
 
 
     private var keyRegion: String? = null
@@ -19,7 +19,7 @@ class GetWeatherDataCurrent @Inject constructor(private val repository: WeatherR
         apiKey=key
     }
 
-    override fun buildUseCaseSingle(): Single<List<WeatherCurent>> {
+    override fun buildUseCaseSingle(): Single<ArrayList<WeatherCurent>> {
         return repository.getWeatherDataCurrent(keyRegion,apiKey,true)
     }
 }
