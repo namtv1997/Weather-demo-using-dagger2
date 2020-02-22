@@ -10,8 +10,7 @@ import com.example.weather.domain.usecase.GetWeatherDataByGeoPositionSearchUseCa
 import com.example.weather.domain.usecase.GetWeatherDataCurrent
 import javax.inject.Inject
 
-class MainViewModel
-@Inject constructor(
+class MainViewModel @Inject constructor(
     private val getWeatherDataByGeoPositionSearchUseCase: GetWeatherDataByGeoPositionSearchUseCase,
     private val getWeatherDataCurrent: GetWeatherDataCurrent,
     private val getWeatherData5Days: GetWeatherData5Days) : ViewModel() {
