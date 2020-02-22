@@ -3,11 +3,12 @@ package com.example.weather.binding
 import android.annotation.SuppressLint
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.example.weather.domain.remote.pojo.response.WeatherCurent
-import com.example.weather.domain.remote.pojo.response.WeatherResult
+import com.example.weather.data.response.WeatherCurent
+import com.example.weather.data.response.WeatherResult
 import java.text.SimpleDateFormat
 import kotlin.math.roundToInt
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class TextBinding {
 
     companion object {
@@ -22,8 +23,8 @@ class TextBinding {
                 val sdfCustom = SimpleDateFormat("yyyy EEEE MMMM-dd")
 
                 val arr = listweather?.get(0)?.localObservationDateTime.toString().split(":")
-                val arr1 = arr[0].split("T")
-                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                val arrResult = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arrResult[0]))
                 val splitString =result.split(" ")
                 textView.text=splitString[0]
 
@@ -42,8 +43,8 @@ class TextBinding {
                 val sdfCustom = SimpleDateFormat("yyyy EEEE MMMM-dd")
 
                 val arr = listweather?.get(0)?.localObservationDateTime.toString().split(":")
-                val arr1 = arr[0].split("T")
-                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                val arrResult = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arrResult[0]))
                 val splitString =result.split(" ")
                 textView.text=splitString[1]
 
@@ -62,8 +63,8 @@ class TextBinding {
                 val sdfCustom = SimpleDateFormat("yyyy EEEE MMMM-dd")
 
                 val arr = listweather?.get(0)?.localObservationDateTime.toString().split(":")
-                val arr1 = arr[0].split("T")
-                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                val arrResult = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arrResult[0]))
                 val splitString =result.split(" ")
                 textView.text=splitString[2]
 
@@ -114,9 +115,9 @@ class TextBinding {
         }
 
         @SuppressLint("SetTextI18n")
-        @BindingAdapter("tempDayThee")
+        @BindingAdapter("tempDayThree")
         @JvmStatic
-        fun setTempDayThee(textView: TextView, weatherResult: WeatherResult? = null) {
+        fun setTempDayThree(textView: TextView, weatherResult: WeatherResult? = null) {
             val result =
                 weatherResult?.DailyForecasts?.get(3)?.temperature?.minimum?.value?.minus(1)
                     ?.times(5)?.div(9)?.roundToInt()
@@ -136,13 +137,13 @@ class TextBinding {
         @SuppressLint("SetTextI18n", "SimpleDateFormat")
         @BindingAdapter("dayOne")
         @JvmStatic
-        fun setdDayOne(textView: TextView, weatherResult: WeatherResult? = null) {
+        fun setDayOne(textView: TextView, weatherResult: WeatherResult? = null) {
             try {
                 val sdf5days = SimpleDateFormat("yyyy-MM-dd")
                 val sdfCustom = SimpleDateFormat("EEE")
                 val arr = weatherResult?.DailyForecasts?.get(1)?.date.toString().split(":")
-                val arr1 = arr[0].split("T")
-                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                val arrResult = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arrResult[0]))
                 textView.text = result.toString()
             } catch (e: Exception) {
 
@@ -152,13 +153,13 @@ class TextBinding {
         @SuppressLint("SetTextI18n", "SimpleDateFormat")
         @BindingAdapter("dayTwo")
         @JvmStatic
-        fun setdDayTwo(textView: TextView, weatherResult: WeatherResult? = null) {
+        fun setDayTwo(textView: TextView, weatherResult: WeatherResult? = null) {
             try {
                 val sdf5days = SimpleDateFormat("yyyy-MM-dd")
                 val sdfCustom = SimpleDateFormat("EEE")
                 val arr = weatherResult?.DailyForecasts?.get(2)?.date.toString().split(":")
-                val arr1 = arr[0].split("T")
-                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                val arrResult = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arrResult[0]))
                 textView.text = result.toString()
             } catch (e: Exception) {
 
@@ -173,8 +174,8 @@ class TextBinding {
                 val sdf5days = SimpleDateFormat("yyyy-MM-dd")
                 val sdfCustom = SimpleDateFormat("EEE")
                 val arr = weatherResult?.DailyForecasts?.get(3)?.date.toString().split(":")
-                val arr1 = arr[0].split("T")
-                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                val arrResult = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arrResult[0]))
                 textView.text = result.toString()
             } catch (e: Exception) {
 
@@ -189,8 +190,8 @@ class TextBinding {
                 val sdf5days = SimpleDateFormat("yyyy-MM-dd")
                 val sdfCustom = SimpleDateFormat("EEE")
                 val arr = weatherResult?.DailyForecasts?.get(4)?.date.toString().split(":")
-                val arr1 = arr[0].split("T")
-                val result = sdfCustom.format(sdf5days.parse(arr1[0]))
+                val arrResult = arr[0].split("T")
+                val result = sdfCustom.format(sdf5days.parse(arrResult[0]))
                 textView.text = result.toString()
             } catch (e: Exception) {
 

@@ -19,8 +19,6 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     private lateinit var progressDialog: CircleProgressDialog
     private lateinit var noNetworkDialog: NoNetworkDialog
 
-    var Key= Constant.API_Key16
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         progressDialog = CircleProgressDialog(this)
@@ -77,5 +75,9 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         progressDialog.cancel()
+    }
+    
+    companion object{
+        var apiKey= Constant.API_Key16
     }
 }

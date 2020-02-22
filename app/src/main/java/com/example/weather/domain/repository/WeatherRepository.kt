@@ -1,15 +1,16 @@
 package com.example.weather.domain.repository
 
-import com.example.weather.domain.remote.pojo.response.GeoPositionSearch
-import com.example.weather.domain.remote.pojo.response.WeatherCurent
-import com.example.weather.domain.remote.pojo.response.WeatherResult
-import io.reactivex.Single
+import com.example.weather.data.response.GeoPositionSearch
+import com.example.weather.data.response.WeatherCurent
+import com.example.weather.data.response.WeatherResult
+import io.reactivex.Observable
 
 interface WeatherRepository {
-    fun getWeatherDataByGeoPositionSearch(apikey: String?,q: String?) :Single<GeoPositionSearch>
 
-    fun getWeatherData5Days(keyRegion: String?,apikey: String?,details: Boolean) :Single<WeatherResult>
+    fun getWeatherDataByGeoPositionSearch(q: String?) :Observable<GeoPositionSearch>
 
-    fun getWeatherDataCurrent(keyRegion: String?,apikey: String?,details: Boolean) :Single<ArrayList<WeatherCurent>>
+    fun getWeatherData5Days(keyRegion: String?,details: Boolean) : Observable<WeatherResult>
+
+    fun getWeatherDataCurrent(keyRegion: String?,details: Boolean) :Observable<ArrayList<WeatherCurent>>
 
 }

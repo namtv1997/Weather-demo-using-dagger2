@@ -1,25 +1,21 @@
 package com.example.weather.domain.usecase
 
-import com.example.weather.domain.remote.pojo.response.WeatherCurent
-import com.example.weather.domain.remote.pojo.response.WeatherResult
+import com.example.weather.data.response.WeatherCurent
 import com.example.weather.domain.repository.WeatherRepository
-import com.example.weather.domain.usecase.base.SingleUseCase
-import io.reactivex.Single
+import com.example.weather.domain.usecase.base.ObservableUseCase
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class GetWeatherDataCurrent @Inject constructor(private val repository: WeatherRepository) :
-    SingleUseCase<ArrayList<WeatherCurent>>() {
-
+    ObservableUseCase<ArrayList<WeatherCurent>>() {
 
     private var keyRegion: String? = null
-    private var apiKey: String? = null
 
-    fun saveKeyRegionAndApiKey(regionKey: String,key:String) {
-        keyRegion = regionKey
-        apiKey=key
+    fun saveLatAndLon(latitue:String) {
+        keyRegion=latitue
     }
 
-    override fun buildUseCaseSingle(): Single<ArrayList<WeatherCurent>> {
-        return repository.getWeatherDataCurrent(keyRegion,apiKey,true)
+    override fun buildUseCaseSingle(): Observable<ArrayList<WeatherCurent>> {
+        return repository.getWeatherDataCurrent(keyRegion,true)
     }
 }

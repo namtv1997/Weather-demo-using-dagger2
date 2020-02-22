@@ -6,16 +6,8 @@
     <data>
 
         <variable
-            name="geoPositionSearchViewModel"
-            type="com.example.weather.presentation.main.GeoPositionSearchViewModel" />
-
-        <variable
-            name="weatherCurrentViewModel"
-            type="com.example.weather.presentation.main.WeatherCurrentViewModel" />
-
-        <variable
-            name="weather5daysViewModel"
-            type="com.example.weather.presentation.main.Weather5daysViewModel" />
+            name="mainViewModel"
+            type="com.example.weather.presentation.main.MainViewModel" />
 
     </data>
 
@@ -34,7 +26,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="RtlSymmetry"
-                app:year="@{weatherCurrentViewModel.weatherCurrent}"/>
+                app:year="@{mainViewModel.weatherCurrent}"/>
 
             <LinearLayout
                 android:id="@+id/lnDateTime"
@@ -50,13 +42,13 @@
                     android:id="@+id/tvDay"
                     style="@style/TextTitleLarge"
                     android:layout_width="match_parent"
-                    app:month="@{weatherCurrentViewModel.weatherCurrent}" />
+                    app:month="@{mainViewModel.weatherCurrent}" />
 
                 <TextView
                     android:id="@+id/tvDate"
                     style="@style/TextTitleLarge"
                     android:layout_width="match_parent"
-                    app:day="@{weatherCurrentViewModel.weatherCurrent}"/>
+                    app:day="@{mainViewModel.weatherCurrent}"/>
 
             </LinearLayout>
 
@@ -65,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/spacing_small"
-                android:text="@{geoPositionSearchViewModel.resultGeoPositionSearch.country.englishName.toString()}"
+                android:text="@{mainViewModel.resultGeoPositionSearch.country.englishName.toString()}"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_huge"
                 android:textStyle="bold"
@@ -90,7 +82,7 @@
 
                 <TextView
                     style="@style/TextTitleLarge"
-                    android:text="@{geoPositionSearchViewModel.resultGeoPositionSearch.geoPosition.latitude.toString()}" />
+                    android:text="@{mainViewModel.resultGeoPositionSearch.geoPosition.latitude.toString()}" />
             </LinearLayout>
 
             <LinearLayout
@@ -110,7 +102,7 @@
 
                 <TextView
                     style="@style/TextTitleLarge"
-                    android:text="@{geoPositionSearchViewModel.resultGeoPositionSearch.geoPosition.longitude.toString()}" />
+                    android:text="@{mainViewModel.resultGeoPositionSearch.geoPosition.longitude.toString()}" />
             </LinearLayout>
 
             <LinearLayout
@@ -130,7 +122,7 @@
 
                 <TextView
                     style="@style/TextTitleLarge"
-                    android:text="@{geoPositionSearchViewModel.resultGeoPositionSearch.timeZone.name.toString()}" />
+                    android:text="@{mainViewModel.resultGeoPositionSearch.timeZone.name.toString()}" />
 
             </LinearLayout>
 
@@ -151,7 +143,7 @@
 
                 <TextView
                     style="@style/TextTitleLarge"
-                    android:text="@{geoPositionSearchViewModel.resultGeoPositionSearch.region.englishName.toString()}" />
+                    android:text="@{mainViewModel.resultGeoPositionSearch.region.englishName.toString()}" />
 
             </LinearLayout>
 
@@ -174,7 +166,7 @@
                 android:textSize="48sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivSttWeather"
-                app:degree="@{weatherCurrentViewModel.weatherCurrent}"
+                app:degree="@{mainViewModel.weatherCurrent}"
                 tools:ignore="RtlSymmetry" />
 
             <LinearLayout
@@ -192,14 +184,14 @@
                     style="@style/TextTitleLarge"
                     android:layout_width="match_parent"
                     android:textSize="24sp"
-                    app:windSpeed="@{weatherCurrentViewModel.weatherCurrent}"/>
+                    app:windSpeed="@{mainViewModel.weatherCurrent}"/>
 
                 <TextView
                     android:id="@+id/tvHumidity"
                     style="@style/TextTitleLarge"
                     android:layout_width="match_parent"
                     android:textSize="24sp"
-                    app:humidity="@{weatherCurrentViewModel.weatherCurrent}"/>
+                    app:humidity="@{mainViewModel.weatherCurrent}"/>
 
             </LinearLayout>
 
@@ -218,25 +210,25 @@
                     style="@style/TextContentLarge"
                     android:gravity="center"
                     android:layout_weight="1"
-                    app:dayOne="@{weather5daysViewModel.weather5days}"/>
+                    app:dayOne="@{mainViewModel.weather5days}"/>
 
                 <TextView
                     android:id="@+id/tvWednesday"
                     style="@style/TextContentLarge"
                     android:layout_weight="1"
-                    app:dayTwo="@{weather5daysViewModel.weather5days}"/>
+                    app:dayTwo="@{mainViewModel.weather5days}"/>
 
                 <TextView
                     android:id="@+id/tvThurday"
                     style="@style/TextContentLarge"
                     android:layout_weight="1"
-                    app:dayThree="@{weather5daysViewModel.weather5days}"/>
+                    app:dayThree="@{mainViewModel.weather5days}"/>
 
                 <TextView
                     android:id="@+id/tvFriDay"
                     style="@style/TextContentLarge"
                     android:layout_weight="1"
-                    app:dayFour="@{weather5daysViewModel.weather5days}"/>
+                    app:dayFour="@{mainViewModel.weather5days}"/>
 
             </LinearLayout>
 
@@ -295,28 +287,28 @@
                     style="@style/TextContentLarge"
                     android:gravity="center"
                     android:layout_weight="1"
-                    app:tempDayOne="@{weather5daysViewModel.weather5days}"/>
+                    app:tempDayOne="@{mainViewModel.weather5days}"/>
 
                 <TextView
                     android:id="@+id/tvTempDay2"
                     style="@style/TextContentLarge"
                     android:gravity="center"
                     android:layout_weight="1"
-                    app:tempDayTwo="@{weather5daysViewModel.weather5days}"/>
+                    app:tempDayTwo="@{mainViewModel.weather5days}"/>
 
                 <TextView
                     android:id="@+id/tvTempDay3"
                     style="@style/TextContentLarge"
                     android:gravity="center"
                     android:layout_weight="1"
-                    app:tempDayThee="@{weather5daysViewModel.weather5days}"/>
+                    app:tempDayThree="@{mainViewModel.weather5days}"/>
 
                 <TextView
                     android:id="@+id/tvTempDay4"
                     style="@style/TextContentLarge"
                     android:gravity="center"
                     android:layout_weight="1"
-                    app:tempDayFour="@{weather5daysViewModel.weather5days}"/>
+                    app:tempDayFour="@{mainViewModel.weather5days}"/>
 
             </LinearLayout>
 

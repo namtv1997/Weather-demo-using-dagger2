@@ -30,16 +30,9 @@ class MainActivity : BaseActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModelWeatherCurrent: WeatherCurrentViewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory).get(WeatherCurrentViewModel::class.java)
+    private val viewModelMain: MainViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
     }
-    private val viewModelWeather5days: Weather5daysViewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory).get(Weather5daysViewModel::class.java)
-    }
-    private val viewModelGeoPositionSearch: GeoPositionSearchViewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory).get(GeoPositionSearchViewModel::class.java)
-    }
-
     private var latitude: String? = null
     private var longitude: String? = null
     private var locationManager: LocationManager? = null
@@ -51,27 +44,17 @@ class MainActivity : BaseActivity() {
 
         requestPermission()
 
-        viewModelGeoPositionSearch.resultGeoPositionSearch.observe(this, Observer {
+        viewModelMain.resultGeoPositionSearch.observe(this, Observer {
 
-            viewModelWeatherCurrent.getDataWeatherCurrent(it.key.toString(), Key)
-            viewModelWeather5days.getDataWeather5days(it.key.toString(), Key)
+            viewModelMain.getDataWeatherCurrent(it.key.toString())
+            viewModelMain.getDataWeather5days(it.key.toString())
         })
 
-        viewModelGeoPositionSearch.isLoad.observe(this, Observer {
+        viewModelMain.isLoad.observe(this, Observer {
             showOrHideProgressDialog(it)
         })
 
-        viewModelWeatherCurrent.isLoad.observe(this, Observer {
-            showOrHideProgressDialog(it)
-        })
-
-        viewModelWeather5days.isLoad.observe(this, Observer {
-            showOrHideProgressDialog(it)
-        })
-
-        mainBinding.geoPositionSearchViewModel = viewModelGeoPositionSearch
-        mainBinding.weatherCurrentViewModel=viewModelWeatherCurrent
-        mainBinding.weather5daysViewModel=viewModelWeather5days
+        mainBinding.mainViewModel = viewModelMain
         mainBinding.lifecycleOwner = this
 
     }
@@ -154,12 +137,11 @@ class MainActivity : BaseActivity() {
 
     private fun onLocationChanged(location: Location) {
         // New location has now been determined
-
         mLastLocation = location
         latitude = mLastLocation.latitude.toString()
         longitude = mLastLocation.longitude.toString()
 
-        viewModelGeoPositionSearch.getDataGeoPositionSearch(Key, "${latitude},${longitude}")
+        viewModelMain.getDataGeoPositionSearch("${latitude},${longitude}")
     }
 
     companion object {

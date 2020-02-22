@@ -1,23 +1,21 @@
 package com.example.weather.domain.usecase
 
-import com.example.weather.domain.remote.pojo.response.GeoPositionSearch
+import com.example.weather.data.response.GeoPositionSearch
 import com.example.weather.domain.repository.WeatherRepository
-import com.example.weather.domain.usecase.base.SingleUseCase
-import io.reactivex.Single
+import com.example.weather.domain.usecase.base.ObservableUseCase
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class GetWeatherDataByGeoPositionSearchUseCase @Inject constructor(private val repository: WeatherRepository) :
-    SingleUseCase<GeoPositionSearch>() {
+    ObservableUseCase<GeoPositionSearch>() {
 
-    private var apiKey: String? = null
     private var q: String? = null
 
-    fun saveApiKeyAndQ(key: String,latitue:String) {
-        apiKey = key
+    fun saveLatAndLon(latitue:String) {
         q=latitue
     }
 
-    override fun buildUseCaseSingle(): Single<GeoPositionSearch> {
-        return repository.getWeatherDataByGeoPositionSearch(apiKey,q)
+    override fun buildUseCaseSingle(): Observable<GeoPositionSearch> {
+        return repository.getWeatherDataByGeoPositionSearch(q)
     }
 }
